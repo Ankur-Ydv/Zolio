@@ -1,118 +1,224 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import { handleValidation } from "@/utils/lib";
+import MainLayout from "@/utils/MainLayout";
+import SkillBox from "@/components/SkillBox";
+import SkillInput from "@/components/SkillInput";
+import ProjectInput from "@/components/ProjectInput";
+import CertificateInput from "@/components/CertificateInput";
+import FormHeader from "@/components/FormHeader";
+import ProjectBox from "@/components/ProjectBox";
+import CertificateBox from "@/components/CertificateBox";
 
-const inter = Inter({ subsets: ['latin'] })
+const Home = () => {
+  const [skills, setSkills] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [certificates, setCertificates] = useState([]);
 
-export default function Home() {
+  console.log(projects);
+
+  const onSubmit = async (values, error) => {
+    console.log(values);
+    const validate = handleValidation(values);
+    if (validate.status) {
+      alert(hello);
+    } else {
+      alert(validate.msg);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      fullname: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      role: "",
+      resumeLink: "",
+      description: "",
+      image: "",
+      profiles: {
+        leetcode: "",
+        github: "",
+        linkedin: "",
+        geeksforgeeks: "",
+        codechef: "",
+        codeforces: "",
+      },
+    },
+    onSubmit,
+  });
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <>
+      <MainLayout>
+        <form
+          action="#"
+          className="w-2/3 flex flex-col items-center gap-8 my-8 p-4 border border-black"
+          onSubmit={formik.handleSubmit}
+        >
+          <FormHeader />
+
+          <section className="w-full flex flex-col gap-4">
+            <div className="w-full flex gap-8">
+              <input
+                type="text"
+                name="fullname"
+                required={true}
+                placeholder="Enter Your Full Name*"
+                className="w-full p-2"
+                {...formik.getFieldProps("fullname")}
+              />
+              <input
+                type="email"
+                name="email"
+                required={true}
+                placeholder="Enter Your EmailId*"
+                className="w-full p-2"
+                {...formik.getFieldProps("email")}
+              />
+            </div>
+            <div className="w-full flex gap-8">
+              <input
+                type="password"
+                name="password"
+                required={true}
+                placeholder="Password (Should Be of Min. 8 Characters)*"
+                className="w-full p-2"
+                {...formik.getFieldProps("password")}
+              />
+              <input
+                type="password"
+                name="confirmPassword"
+                required={true}
+                placeholder="Re-Enter Password*"
+                className="w-full p-2"
+                {...formik.getFieldProps("confirmPassword")}
+              />
+            </div>
+            <div className="w-full flex gap-8">
+              <input
+                type="text"
+                name="role"
+                required={true}
+                placeholder="How You Describe Yourself (ROLE)*"
+                className="w-full p-2"
+                {...formik.getFieldProps("role")}
+              />
+              <input
+                type="text"
+                name="resume"
+                required={true}
+                placeholder="Enter Your Resume Link*"
+                className="w-full p-2"
+                {...formik.getFieldProps("resumeLink")}
+              />
+            </div>
+            <textarea
+              placeholder="Tell Us About Yourself (max 500 characters)"
+              rows={4}
+              className="w-full p-2"
+              {...formik.getFieldProps("description")}
             />
-          </a>
-        </div>
-      </div>
+          </section>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+          <section className="w-full flex flex-col gap-4">
+            <h1 className="text-2xl">Add Your Profiles</h1>
+            <div className="w-full flex gap-8">
+              <input
+                type="text"
+                name="linkedin"
+                placeholder="LinkedIn"
+                className="w-full p-2"
+                {...formik.getFieldProps("linkedin")}
+              />
+              <input
+                type="text"
+                name="github"
+                placeholder="GitHub"
+                className="w-full p-2"
+                {...formik.getFieldProps("github")}
+              />
+            </div>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+            <div className="w-full flex gap-8">
+              <input
+                type="text"
+                name="leetcode"
+                placeholder="LeetCode"
+                className="w-full p-2"
+                {...formik.getFieldProps("leetcode")}
+              />
+              <input
+                type="text"
+                name="geeksforgeeks"
+                placeholder="GeeksForGeeks"
+                className="w-full p-2"
+                {...formik.getFieldProps("geeksforgeeks")}
+              />
+            </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+            <div className="w-full flex gap-8">
+              <input
+                type="text"
+                name="codeforces"
+                placeholder="CodeForces"
+                className="w-full p-2"
+                {...formik.getFieldProps("codeforces")}
+              />
+              <input
+                type="text"
+                name="codechef"
+                placeholder="CodeChef"
+                className="w-full p-2"
+                {...formik.getFieldProps("codechef")}
+              />
+            </div>
+          </section>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
+          <section className="w-full flex flex-col gap-8">
+            <h1 className="text-2xl">Add Your Skills</h1>
+            <SkillInput skills={skills} setSkills={setSkills} />
+            <article className="w-full flex flex-wrap justify-evenly gap-4 ">
+              {skills.map((skill, index) => {
+                return <SkillBox skill={skill} key={index} />;
+              })}
+            </article>
+          </section>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+          <section className="w-full flex flex-col gap-4">
+            <h1 className="text-2xl">Add Your Projects</h1>
+            <ProjectInput projects={projects} setProjects={setProjects} />
+            <div className="w-full flex flex-col items-center gap-8">
+              {projects.map((project, index) => {
+                return <ProjectBox project={project} key={index} />;
+              })}
+            </div>
+          </section>
+
+          <section className="w-full flex flex-col gap-4">
+            <h1 className="text-2xl">Add Your Certificates</h1>
+            <CertificateInput
+              certificates={certificates}
+              setCertificates={setCertificates}
+            />
+            <div className="w-full flex flex-col gap-4">
+              {certificates.map((certificate, index) => {
+                return <CertificateBox certificate={certificate} key={index} />;
+              })}
+            </div>
+          </section>
+
+          <button
+            type="submit"
+            className="w-fit px-8 py-2 rounded-md shadow-md bg-slate-950 text-white"
+          >
+            Create My PortFolio
+          </button>
+        </form>
+      </MainLayout>
+    </>
+  );
+};
+
+export default Home;
