@@ -13,6 +13,7 @@ const ConnectForm = () => {
       },
     },
   };
+
   return (
     <>
       <motion.form

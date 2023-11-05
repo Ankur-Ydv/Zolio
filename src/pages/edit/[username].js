@@ -12,6 +12,7 @@ import CertificateInput from "@/components/CertificateInput";
 import FormHeader from "@/components/FormHeader";
 import ProjectBox from "@/components/ProjectBox";
 import CertificateBox from "@/components/CertificateBox";
+import Link from "next/link";
 
 export async function getServerSideProps({ params }) {
   DbConnect().catch((error) => console.log(error));
@@ -37,9 +38,18 @@ const Home = ({ userData }) => {
 
   const router = useRouter();
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/edit/${userData.username}`);
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onSubmit = async (values) => {
     try {
-      const res = await axios.put(`/api/edit/${userData.username}`, {
+      await axios.put(`/api/edit/${userData.username}`, {
         ...values,
         skills,
         projects,
@@ -47,7 +57,6 @@ const Home = ({ userData }) => {
         username: userData.username,
       });
 
-      alert("Portfolio Created Successfully");
       router.replace(router.asPath);
     } catch (error) {
       console.log(error);
@@ -263,12 +272,27 @@ const Home = ({ userData }) => {
             </div>
           </section>
 
-          <button
-            type="submit"
-            className="w-fit px-8 py-2 rounded-md shadow-md bg-slate-950 text-white"
-          >
-            Create My PortFolio
-          </button>
+          <div className="w-full flex flex-col items-center gap-1">
+            <div className="w-full flex gap-4 justify-center">
+              <button
+                type="submit"
+                className="w-64 py-2 rounded-md shadow-md bg-slate-950 text-white"
+              >
+                Edit Portfolio
+              </button>
+              <button
+                type="button"
+                className="w-64 py-2 rounded-md shadow-md border-2 border-red-800 hover:bg-red-50"
+                onClick={handleDelete}
+              >
+                Delete Portfolio
+              </button>
+            </div>
+
+            <Link href="/" className="hover:text-slate-500">
+              Create a New Portfolio →
+            </Link>
+          </div>
         </form>
       </MainLayout>
     </>

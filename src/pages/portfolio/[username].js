@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Russo_One } from "next/font/google";
 import CertificateBox from "@/components/CertificateBox";
 import ConnectForm from "@/components/ConnectForm";
@@ -10,7 +11,7 @@ import { MdDownload } from "react-icons/md";
 import MainLayout from "@/utils/MainLayout";
 import DbConnect from "@/utils/DbConnect";
 import Users from "@/utils/UserModesl";
-import Link from "next/link";
+import ProfileSidebar from "@/components/ProfileSidebar";
 
 const russo_one = Russo_One({
   subsets: ["latin"],
@@ -39,8 +40,10 @@ export async function getServerSideProps({ params }) {
 const Portfolio = ({ userData }) => {
   return (
     <>
-      <MainLayout>
+      <MainLayout extraStyle={"h-screen"}>
         <Header />
+
+        <ProfileSidebar profiles={userData.profiles} />
 
         <section
           id="home"

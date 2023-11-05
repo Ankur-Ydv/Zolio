@@ -5,7 +5,7 @@ import React from "react";
 const ErrorPage = () => {
   return (
     <>
-      <MainLayout extraStyle={"gap-8 justify-center"}>
+      <MainLayout extraStyle={"gap-8 justify-center h-screen"}>
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"

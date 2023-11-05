@@ -13,7 +13,6 @@ const SkillInput = ({ skills, setSkills }) => {
         <input
           type="text"
           name="skill"
-          required={true}
           placeholder="Enter Your Skill Here"
           className="w-1/2 p-2"
           onChange={(e) => setCurrentSkill(e.target.value)}

@@ -10,6 +10,8 @@ import FormHeader from "@/components/FormHeader";
 import ProjectBox from "@/components/ProjectBox";
 import CertificateBox from "@/components/CertificateBox";
 import ValidateUsername from "@/components/ValidateUsername";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Home = () => {
   const [valid, setValid] = useState(false);
@@ -18,7 +20,9 @@ const Home = () => {
   const [username, setUsername] = useState("");
   const [certificates, setCertificates] = useState([]);
 
-  const onSubmit = async (values, { resetForm }) => {
+  const router = useRouter();
+
+  const onSubmit = async (values, error) => {
     try {
       await axios.post("/api/create", {
         ...values,
@@ -27,14 +31,7 @@ const Home = () => {
         certificates,
         username,
       });
-
-      alert("Portfolio Created Successfully");
-      resetForm();
-      setSkills([]);
-      setProjects([]);
-      setCertificates([]);
-      setUsername("");
-      setValid(false);
+      router.push(`/portfolio/${username}`);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +61,7 @@ const Home = () => {
 
   return (
     <>
-      <MainLayout>
+      <MainLayout extraStyle={"min-h-screen"}>
         <form
           action="#"
           className="w-2/3 flex flex-col items-center gap-8 my-8 p-4 border border-black"
@@ -256,12 +253,21 @@ const Home = () => {
             setUsername={setUsername}
           />
 
-          <button
-            type="submit"
-            className="w-fit px-8 py-2 rounded-md shadow-md bg-slate-950 text-white"
-          >
-            Create My PortFolio
-          </button>
+          <div className="w-full flex gap-4 justify-center">
+            <button
+              type="submit"
+              className="w-64 py-2 rounded-md shadow-md bg-slate-950 text-white"
+            >
+              Create PortFolio
+            </button>
+
+            <Link
+              href="/edit"
+              className="w-64 py-2 rounded-md shadow-md border-2 border-black text-center hover:bg-slate-50"
+            >
+              Edit Portfolio
+            </Link>
+          </div>
         </form>
       </MainLayout>
     </>

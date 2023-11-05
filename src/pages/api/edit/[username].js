@@ -21,6 +21,16 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(400).json({ msg: "Invalid Request", error });
     }
+  } else if (req.method === "DELETE") {
+    try {
+      await Users.findOneAndDelete({
+        username: req.query.username,
+      });
+
+      res.status(200).json({ msg: "Deleted Successfully" });
+    } catch (error) {
+      res.status(400).json({ msg: "Invalid Request", error });
+    }
   } else {
     res.status(405).json({ msg: "Method Not Allowed" });
   }
