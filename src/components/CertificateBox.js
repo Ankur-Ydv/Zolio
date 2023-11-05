@@ -1,7 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { TiDeleteOutline } from "react-icons/ti";
 
-const CertificateBox = ({ certificate }) => {
+const CertificateBox = ({
+  index,
+  canDelete,
+  certificate,
+  certificates,
+  setCertificates,
+}) => {
   const certificateIntro = {
     hide: {
       opacity: 0,
@@ -15,6 +22,11 @@ const CertificateBox = ({ certificate }) => {
       },
     },
   };
+
+  const handleDelete = () => {
+    setCertificates(certificates.filter((certificate, ind) => index !== ind));
+  };
+
   return (
     <>
       <motion.article
@@ -38,6 +50,12 @@ const CertificateBox = ({ certificate }) => {
             <span>{certificate.date}</span>
           </div>
         </div>
+        <TiDeleteOutline
+          className={`${
+            !canDelete && "hidden"
+          } float-right text-2xl cursor-pointer hover:text-red-800`}
+          onClick={handleDelete}
+        />
       </motion.article>
     </>
   );

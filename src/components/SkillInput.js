@@ -5,7 +5,6 @@ const SkillInput = ({ skills, setSkills }) => {
 
   const addSkill = () => {
     setSkills([...skills, currentSkill]);
-    setCurrentSkill("");
   };
 
   return (

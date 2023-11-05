@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
 import axios from "axios";
+import DbConnect from "@/utils/DbConnect";
+import Users from "@/utils/UserModesl";
 import MainLayout from "@/utils/MainLayout";
 import SkillBox from "@/components/SkillBox";
 import SkillInput from "@/components/SkillInput";
@@ -9,32 +12,43 @@ import CertificateInput from "@/components/CertificateInput";
 import FormHeader from "@/components/FormHeader";
 import ProjectBox from "@/components/ProjectBox";
 import CertificateBox from "@/components/CertificateBox";
-import ValidateUsername from "@/components/ValidateUsername";
 
-const Home = () => {
-  const [valid, setValid] = useState(false);
-  const [skills, setSkills] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [username, setUsername] = useState("");
-  const [certificates, setCertificates] = useState([]);
+export async function getServerSideProps({ params }) {
+  DbConnect().catch((error) => console.log(error));
 
-  const onSubmit = async (values, { resetForm }) => {
+  const res = await Users.findOne({ username: params.username });
+  const userData = JSON.parse(JSON.stringify(res));
+
+  if (!userData) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { userData },
+  };
+}
+
+const Home = ({ userData }) => {
+  const [skills, setSkills] = useState(userData.skills);
+  const [projects, setProjects] = useState(userData.projects);
+  const [certificates, setCertificates] = useState(userData.certificates);
+
+  const router = useRouter();
+
+  const onSubmit = async (values) => {
     try {
-      await axios.post("/api/create", {
+      const res = await axios.put(`/api/edit/${userData.username}`, {
         ...values,
         skills,
         projects,
         certificates,
-        username,
+        username: userData.username,
       });
 
       alert("Portfolio Created Successfully");
-      resetForm();
-      setSkills([]);
-      setProjects([]);
-      setCertificates([]);
-      setUsername("");
-      setValid(false);
+      router.replace(router.asPath);
     } catch (error) {
       console.log(error);
     }
@@ -42,21 +56,21 @@ const Home = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullname: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      role: "",
-      resumeLink: "",
-      description: "",
-      image: "",
+      fullname: userData.fullname,
+      email: userData.email,
+      password: userData.password,
+      confirmPassword: userData.password,
+      role: userData.role,
+      resumeLink: userData.resumeLink,
+      description: userData.description,
+      image: userData.image,
       profiles: {
-        leetcode: "",
-        github: "",
-        linkedin: "",
-        geeksforgeeks: "",
-        codechef: "",
-        codeforces: "",
+        leetcode: userData.profiles.leetcode,
+        github: userData.profiles.github,
+        linkedin: userData.profiles.linkedin,
+        geeksforgeeks: userData.profiles.geeksforgeeks,
+        codechef: userData.profiles.codechef,
+        codeforces: userData.profiles.codeforces,
       },
     },
     onSubmit,
@@ -248,13 +262,6 @@ const Home = () => {
               })}
             </div>
           </section>
-
-          <ValidateUsername
-            valid={valid}
-            setValid={setValid}
-            username={username}
-            setUsername={setUsername}
-          />
 
           <button
             type="submit"

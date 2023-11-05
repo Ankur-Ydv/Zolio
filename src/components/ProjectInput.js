@@ -9,8 +9,6 @@ const ProjectInput = ({ projects, setProjects }) => {
     description: "",
   });
 
-  console.log(currentProject);
-
   const addProject = () => {
     setProjects([...projects, currentProject]);
   };

@@ -18,7 +18,7 @@ const MainLayout = ({ children, extraStyle }) => {
   return (
     <>
       <main
-        className={`${rubik.className} w-full h-screen flex flex-col items-center overflow-y-auto text-slate-800 relative ${extraStyle}`}
+        className={`${rubik.className} w-screen h-screen flex flex-col items-center overflow-y-auto text-slate-800 relative ${extraStyle}`}
       >
         {children}
       </main>

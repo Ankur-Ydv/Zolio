@@ -1,5 +1,5 @@
 import React from "react";
-import { Rubik, Russo_One } from "next/font/google";
+import { Russo_One } from "next/font/google";
 import CertificateBox from "@/components/CertificateBox";
 import ConnectForm from "@/components/ConnectForm";
 import Footer from "@/components/Footer";
@@ -8,12 +8,9 @@ import ProjectBox from "@/components/ProjectBox";
 import SkillBox from "@/components/SkillBox";
 import { MdDownload } from "react-icons/md";
 import MainLayout from "@/utils/MainLayout";
-
-const rubik = Rubik({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
+import DbConnect from "@/utils/DbConnect";
+import Users from "@/utils/UserModesl";
+import Link from "next/link";
 
 const russo_one = Russo_One({
   subsets: ["latin"],
@@ -22,67 +19,24 @@ const russo_one = Russo_One({
   display: "swap",
 });
 
-const Skills = ["Html", "CSS", "JS", "C++", "React", "Next", "MongoDB"];
-
-const Projects = [
-  {
-    title: "Arogyam",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et quaerat aperiam ad itaque facere necessitatibus suscipit expedita esse. A voluptates obcaecati nobis magnam ut sapiente et sequi autem laborum necessitatibus!",
-    techStack: ["Next.js", "Express.js", "TailwindCss"],
-    link: "",
-    github: "",
-  },
-  {
-    title: "Arogyam",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et quaerat aperiam ad itaque facere necessitatibus suscipit expedita esse. A voluptates obcaecati nobis magnam ut sapiente et sequi autem laborum necessitatibus!",
-    techStack: ["Next.js", "Express.js", "TailwindCss"],
-    link: "",
-    github: "",
-  },
-  {
-    title: "Arogyam",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et quaerat aperiam ad itaque facere necessitatibus suscipit expedita esse. A voluptates obcaecati nobis magnam ut sapiente et sequi autem laborum necessitatibus!",
-    techStack: ["Next.js", "Express.js", "TailwindCss"],
-    link: "",
-    github: "",
-  },
-];
-
-const Certifications = [
-  {
-    title: "Problem Solving",
-    organization: "HackerRank",
-    date: "16 Jan, 2018",
-  },
-  {
-    title: "Problem Solving",
-    organization: "HackerRank",
-    date: "16 Jan, 2018",
-  },
-  {
-    title: "Problem Solving",
-    organization: "HackerRank",
-    date: "16 Jan, 2018",
-  },
-];
-
 export async function getServerSideProps({ params }) {
-  const userData = params.user;
-  if (userData === "abc") {
+  DbConnect().catch((error) => console.log(error));
+
+  const res = await Users.findOne({ username: params.username });
+  const userData = JSON.parse(JSON.stringify(res));
+
+  if (!userData) {
     return {
       notFound: true,
     };
   }
+
   return {
     props: { userData },
   };
 }
 
 const Portfolio = ({ userData }) => {
-  console.log(userData);
   return (
     <>
       <MainLayout>
@@ -111,9 +65,13 @@ const Portfolio = ({ userData }) => {
               quo alias dolorum asperiores!
             </p>
           </article>
-          <button className="border border-black py-2 px-4 rounded-md bg-gray-50">
+          <Link
+            href={userData.resumeLink}
+            className="border border-black py-2 px-4 rounded-md bg-gray-50"
+            target="_blank"
+          >
             <MdDownload className="inline-block" /> Resume
-          </button>
+          </Link>
         </section>
 
         <section id="skills" className="w-2/3 pt-16">
@@ -121,8 +79,8 @@ const Portfolio = ({ userData }) => {
             My Top Skills
           </h1>
           <div className="w-full flex flex-wrap justify-evenly gap-6">
-            {Skills.map((skill, index) => {
-              return <SkillBox skill={skill} key={index} />;
+            {userData.skills.map((skill, index) => {
+              return <SkillBox skill={skill} key={index} canDelete={false} />;
             })}
           </div>
         </section>
@@ -132,7 +90,7 @@ const Portfolio = ({ userData }) => {
             Projects
           </h1>
           <div className="w-full flex flex-col items-center gap-8">
-            {Projects.map((project, index) => {
+            {userData.projects.map((project, index) => {
               return <ProjectBox project={project} key={index} />;
             })}
           </div>
@@ -143,7 +101,7 @@ const Portfolio = ({ userData }) => {
             Certifications
           </h1>
           <div className="w-full flex flex-col gap-4">
-            {Certifications.map((certificate, index) => {
+            {userData.certificates.map((certificate, index) => {
               return <CertificateBox certificate={certificate} key={index} />;
             })}
           </div>

@@ -2,8 +2,9 @@ import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
 import { FiLink2, FiGithub } from "react-icons/fi";
+import { TiDeleteOutline } from "react-icons/ti";
 
-const ProjectBox = ({ project }) => {
+const ProjectBox = ({ index, canDelete, project, projects, setProjects }) => {
   const projectIntro = {
     hide: {
       opacity: 0,
@@ -16,6 +17,10 @@ const ProjectBox = ({ project }) => {
         duration: 1,
       },
     },
+  };
+
+  const handleDelete = () => {
+    setProjects(projects.filter((project, ind) => index !== ind));
   };
 
   return (
@@ -50,6 +55,12 @@ const ProjectBox = ({ project }) => {
               </Link>
             )}
           </div>
+          <TiDeleteOutline
+            className={`${
+              !canDelete && "hidden"
+            } absolute top-2 right-2 text-3xl cursor-pointer hover:text-red-800`}
+            onClick={handleDelete}
+          />
         </div>
       </motion.article>
     </>

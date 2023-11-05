@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 const Navbar = () => {
   const [lightMode, setLightMode] = useState("light");
+  const router = useRouter();
+  const BasePath = router.asPath.split("#")[0];
   return (
     <>
       <header className="w-full fixed top-0 shadow-md bg-slate-100 opacity-80 z-10">
@@ -21,21 +24,21 @@ const Navbar = () => {
             </svg>
           </span>
           <ul className="flex gap-4">
-            <Link href="/#home">
+            <Link href={BasePath + "/#home"}>
               <li className="hover:bg-slate-200 p-1 rounded-md">Home</li>
             </Link>
-            <Link href="/#skills">
+            <Link href={BasePath + "/#skills"}>
               <li className="hover:bg-slate-200 p-1 rounded-md">Skills</li>
             </Link>
-            <Link href="/#projects">
+            <Link href={BasePath + "/#projects"}>
               <li className="hover:bg-slate-200 p-1 rounded-md">Projects</li>
             </Link>
-            <Link href="/#certifications">
+            <Link href={BasePath + "/#certifications"}>
               <li className="hover:bg-slate-200 p-1 rounded-md">
                 Certifications
               </li>
             </Link>
-            <Link href="/#connect">
+            <Link href={BasePath + "/#connect"}>
               <li className="hover:bg-slate-200 p-1 rounded-md">Connect</li>
             </Link>
           </ul>
