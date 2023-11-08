@@ -4,8 +4,8 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <footer className="w-full flex flex-col items-center ">
-        <nav className="w-1/2 flex justify-evenly p-6 border-t border-black text-slate-600">
+      <footer className="w-full flex flex-col items-center">
+        <nav className="w-full md:2/3 flex justify-evenly p-6 border-t border-black text-slate-600">
           <ul className="flex flex-col gap-4">
             <Link href="/">
               <li className="hover:text-black">Home</li>

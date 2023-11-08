@@ -39,12 +39,12 @@ const CertificateBox = ({
         <img
           src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=700&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
           alt="certificate"
-          width="75"
-          height="75"
+          width="50"
+          height="50"
           className="object-cover"
         />
         <div className="w-full h-12 flex flex-col justify-around">
-          <h1 className="text-xl font-bold">{certificate.title}</h1>
+          <h1 className="text-lg md:text-xl font-bold">{certificate.title}</h1>
           <div>
             <span>{`${certificate.organization} • `}</span>
             <span>{certificate.date}</span>

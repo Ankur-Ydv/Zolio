@@ -12,7 +12,7 @@ import {
 const ProfileSidebar = ({ profiles }) => {
   return (
     <>
-      <aside className="absolute bottom-5 right-5 flex flex-col gap-8 text-xl bg-black text-white p-4 rounded-md shadow-md">
+      <aside className="flex gap-8 text-xl bg-black text-white p-4 rounded-md shadow-lg">
         <Link href={profiles.linkedin} target="_blank">
           <SiLinkedin />
         </Link>

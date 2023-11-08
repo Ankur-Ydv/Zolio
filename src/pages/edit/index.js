@@ -28,40 +28,42 @@ const Edit = () => {
 
   return (
     <>
-      <MainLayout extraStyle={"justify-center h-screen"}>
-        <form
-          className="w-1/4 flex flex-col items-center gap-6 p-4 border border-black"
-          onSubmit={formik.handleSubmit}
-        >
-          <FormHeader />
-          <input
-            type="text"
-            name="username"
-            required={true}
-            placeholder="Username"
-            className="w-full p-2"
-            {...formik.getFieldProps("username")}
-          />
-          <input
-            type="password"
-            name="password"
-            required={true}
-            placeholder="Password"
-            className="w-full p-2"
-            {...formik.getFieldProps("password")}
-          />
-          <div className="w-full flex flex-col gap-1 items-center">
-            <button
-              type="submit"
-              className="w-1/3 p-2 bg-black text-white rounded-md"
-            >
-              Login
-            </button>
-            <Link href="/" className="hover:text-slate-500">
-              Create a New Portfolio →
-            </Link>
-          </div>
-        </form>
+      <MainLayout>
+        <div className="w-full h-full flex justify-center items-center">
+          <form
+            className="h-fit flex flex-col items-center gap-6 p-4 border border-black"
+            onSubmit={formik.handleSubmit}
+          >
+            <FormHeader />
+            <input
+              type="text"
+              name="username"
+              required={true}
+              placeholder="Username"
+              className="w-full p-2"
+              {...formik.getFieldProps("username")}
+            />
+            <input
+              type="password"
+              name="password"
+              required={true}
+              placeholder="Password"
+              className="w-full p-2"
+              {...formik.getFieldProps("password")}
+            />
+            <div className="w-full flex flex-col gap-1 items-center">
+              <button
+                type="submit"
+                className="w-1/3 p-2 bg-black text-white rounded-md"
+              >
+                Login
+              </button>
+              <Link href="/" className="hover:text-slate-500">
+                Create a New Portfolio →
+              </Link>
+            </div>
+          </form>
+        </div>
       </MainLayout>
     </>
   );

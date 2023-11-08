@@ -1,58 +1,32 @@
 import React from "react";
-import { motion } from "framer-motion";
+import InputBox from "./InputBox";
 
 const ConnectForm = () => {
-  const formIntro = {
-    hide: {
-      opacity: 0,
-    },
-    show: {
-      opacity: 1,
-      transition: {
-        duration: 1,
-      },
-    },
-  };
-
   return (
     <>
-      <motion.form
-        className="w-2/3 flex flex-col gap-4 items-center"
-        initial="hide"
-        whileInView="show"
-        viewport={{ once: true }}
-        variants={formIntro}
+      <form
+        className="w-full md:w-2/3 flex flex-col gap-4 items-center"
         action="#"
       >
         <div className="w-full flex gap-4">
-          <input
-            type="text"
-            name="firstname"
-            placeholder="First Name"
-            className="w-full p-3 border border-slate-300 rounded-md focus:outline-slate-400"
+          <InputBox
+            type={"text"}
+            label={"First Name"}
+            id={"firstname"}
+            style={""}
           />
 
-          <input
-            type="text"
-            name="lastname"
-            placeholder="Last Name"
-            className="w-full p-3 border border-slate-300 rounded-md focus:outline-slate-400"
+          <InputBox
+            type={"text"}
+            label={"Last Name"}
+            id={"lastname"}
+            style={""}
           />
         </div>
 
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          className="w-full p-3 border border-slate-300 rounded-md focus:outline-slate-400"
-        />
+        <InputBox type={"email"} label={"Email"} id={"email"} style={""} />
 
-        <input
-          type="text"
-          name="subject"
-          placeholder="Subject"
-          className="w-full p-3 border border-slate-300 rounded-md focus:outline-slate-400"
-        />
+        <InputBox type={"text"} label={"Subject"} id={"subjetc"} style={""} />
 
         <textarea
           type="text"
@@ -65,7 +39,7 @@ const ConnectForm = () => {
         <button className="w-24 py-2 rounded-md bg-slate-700 hover:bg-slate-600 text-white">
           Send
         </button>
-      </motion.form>
+      </form>
     </>
   );
 };
