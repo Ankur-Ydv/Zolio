@@ -1,18 +1,5 @@
 import React from "react";
-import { Rubik, Russo_One } from "next/font/google";
-
-const rubik = Rubik({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const russo_one = Russo_One({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal"],
-  display: "swap",
-});
+import { rubik } from "@/utils/fonts";
 
 const MainLayout = ({ children, extraStyle }) => {
   return (

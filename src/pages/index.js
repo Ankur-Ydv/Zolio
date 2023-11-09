@@ -1,274 +1,106 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import axios from "axios";
-import MainLayout from "@/utils/MainLayout";
-import SkillBox from "@/components/SkillBox";
-import SkillInput from "@/components/SkillInput";
-import ProjectInput from "@/components/ProjectInput";
-import CertificateInput from "@/components/CertificateInput";
 import FormHeader from "@/components/FormHeader";
-import ProjectBox from "@/components/ProjectBox";
-import CertificateBox from "@/components/CertificateBox";
-import ValidateUsername from "@/components/ValidateUsername";
-import Link from "next/link";
+import MainLayout from "@/utils/MainLayout";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import Loader from "@/components/Loader";
+import { signIn } from "next-auth/react";
 
 const Home = () => {
-  const [valid, setValid] = useState(false);
-  const [skills, setSkills] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [username, setUsername] = useState("");
-  const [certificates, setCertificates] = useState([]);
-
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values, error) => {
+    setLoading(true);
     try {
-      await axios.post("/api/create", {
-        ...values,
-        skills,
-        projects,
-        certificates,
-        username,
-      });
-      router.push(`/portfolio/${username}`);
+      if (true) {
+        const res = await signIn("credentials", {
+          redirect: false,
+          username: values.username,
+          password: values.password,
+        });
+
+        if (res.ok) {
+          router.push("/dashboard");
+        } else {
+          console.log("Invalid Credentials");
+        }
+      }
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const formik = useFormik({
     initialValues: {
-      fullname: "",
-      email: "",
+      username: "",
       password: "",
-      confirmPassword: "",
-      role: "",
-      resumeLink: "",
-      description: "",
-      image: "",
-      profiles: {
-        leetcode: "",
-        github: "",
-        linkedin: "",
-        geeksforgeeks: "",
-        codechef: "",
-        codeforces: "",
-      },
     },
     onSubmit,
   });
 
   return (
     <>
-      <MainLayout extraStyle={"min-h-screen"}>
-        <form
-          action="#"
-          className="w-2/3 flex flex-col items-center gap-8 my-8 p-4 border border-black"
-          onSubmit={formik.handleSubmit}
-        >
-          <FormHeader />
+      <MainLayout>
+        <div className="w-full h-full flex justify-center items-center">
+          <form
+            className="w-80 flex flex-col items-center gap-8 p-4 border border-black overflow-auto"
+            onSubmit={formik.handleSubmit}
+          >
+            <FormHeader />
+            <section className="w-full flex flex-col gap-4">
+              <div className="w-full relative">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  className="w-full block rounded-md px-2.5 pb-2.5 pt-5 text-sm focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  {...formik.getFieldProps("username")}
+                />
+                <label
+                  htmlFor="username"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                >
+                  Username
+                </label>
+              </div>
 
-          <section className="w-full flex flex-col gap-4">
-            <div className="w-full flex gap-8">
-              <input
-                type="text"
-                name="fullname"
-                required={true}
-                placeholder="Enter Your Full Name*"
-                className="w-full p-2"
-                {...formik.getFieldProps("fullname")}
-              />
-              <input
-                type="email"
-                name="email"
-                required={true}
-                placeholder="Enter Your EmailId*"
-                className="w-full p-2"
-                {...formik.getFieldProps("email")}
-              />
+              <div className="w-full relative">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="w-full block rounded-md px-2.5 pb-2.5 pt-5 text-sm focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  {...formik.getFieldProps("password")}
+                />
+                <label
+                  htmlFor="password"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                >
+                  Password
+                </label>
+              </div>
+            </section>
+
+            <div className="w-full flex flex-col items-center gap-1">
+              <button
+                type="submit"
+                className="w-64 h-10 rounded-md shadow-md bg-gray-900 text-white disabled:opacity-70"
+                disabled={loading ? true : false}
+              >
+                {loading ? <Loader /> : "Login"}
+              </button>
+
+              <Link href="/create" className="hover:text-slate-500">
+                Create New Portfolio →
+              </Link>
             </div>
-            <div className="w-full flex gap-8">
-              <input
-                type="password"
-                name="password"
-                required={true}
-                placeholder="Password (Should Be of Min. 8 Characters)*"
-                className="w-full p-2"
-                {...formik.getFieldProps("password")}
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                required={true}
-                placeholder="Re-Enter Password*"
-                className="w-full p-2"
-                {...formik.getFieldProps("confirmPassword")}
-              />
-            </div>
-            <div className="w-full flex gap-8">
-              <input
-                type="text"
-                name="role"
-                required={true}
-                placeholder="How You Describe Yourself (ROLE)*"
-                className="w-full p-2"
-                {...formik.getFieldProps("role")}
-              />
-              <input
-                type="text"
-                name="resume"
-                required={true}
-                placeholder="Enter Your Resume Link*"
-                className="w-full p-2"
-                {...formik.getFieldProps("resumeLink")}
-              />
-            </div>
-            <textarea
-              placeholder="Tell Us About Yourself (max 500 characters)"
-              rows={4}
-              className="w-full p-2"
-              {...formik.getFieldProps("description")}
-            />
-          </section>
-
-          <section className="w-full flex flex-col gap-4">
-            <h1 className="text-2xl">Add Your Profiles</h1>
-            <div className="w-full flex gap-8">
-              <input
-                type="text"
-                name="linkedin"
-                placeholder="LinkedIn"
-                className="w-full p-2"
-                {...formik.getFieldProps("profiles.linkedin")}
-              />
-              <input
-                type="text"
-                name="github"
-                placeholder="GitHub"
-                className="w-full p-2"
-                {...formik.getFieldProps("profiles.github")}
-              />
-            </div>
-
-            <div className="w-full flex gap-8">
-              <input
-                type="text"
-                name="leetcode"
-                placeholder="LeetCode"
-                className="w-full p-2"
-                {...formik.getFieldProps("profiles.leetcode")}
-              />
-              <input
-                type="text"
-                name="geeksforgeeks"
-                placeholder="GeeksForGeeks"
-                className="w-full p-2"
-                {...formik.getFieldProps("profiles.geeksforgeeks")}
-              />
-            </div>
-
-            <div className="w-full flex gap-8">
-              <input
-                type="text"
-                name="codeforces"
-                placeholder="CodeForces"
-                className="w-full p-2"
-                {...formik.getFieldProps("profiles.codeforces")}
-              />
-              <input
-                type="text"
-                name="codechef"
-                placeholder="CodeChef"
-                className="w-full p-2"
-                {...formik.getFieldProps("profiles.codechef")}
-              />
-            </div>
-          </section>
-
-          <section className="w-full flex flex-col gap-8">
-            <h1 className="text-2xl">Add Your Skills</h1>
-            <SkillInput skills={skills} setSkills={setSkills} />
-            <article className="w-full flex flex-wrap justify-evenly gap-4 ">
-              {skills.map((skill, index) => {
-                return (
-                  <SkillBox
-                    key={"skill" + index}
-                    index={index}
-                    canDelete={true}
-                    skill={skill}
-                    skills={skills}
-                    setSkills={setSkills}
-                  />
-                );
-              })}
-            </article>
-          </section>
-
-          <section className="w-full flex flex-col gap-4">
-            <h1 className="text-2xl">Add Your Projects</h1>
-            <ProjectInput projects={projects} setProjects={setProjects} />
-            <div className="w-full flex flex-col items-center gap-8">
-              {projects.map((project, index) => {
-                return (
-                  <ProjectBox
-                    key={"project" + index}
-                    index={index}
-                    canDelete={true}
-                    project={project}
-                    projects={projects}
-                    setProjects={setProjects}
-                  />
-                );
-              })}
-            </div>
-          </section>
-
-          <section className="w-full flex flex-col gap-4">
-            <h1 className="text-2xl">Add Your Certificates</h1>
-            <CertificateInput
-              certificates={certificates}
-              setCertificates={setCertificates}
-            />
-            <div className="w-full flex flex-col gap-4">
-              {certificates.map((certificate, index) => {
-                return (
-                  <CertificateBox
-                    key={"certificate" + index}
-                    index={index}
-                    canDelete={true}
-                    certificate={certificate}
-                    certificates={certificates}
-                    setCertificates={setCertificates}
-                  />
-                );
-              })}
-            </div>
-          </section>
-
-          <ValidateUsername
-            valid={valid}
-            setValid={setValid}
-            username={username}
-            setUsername={setUsername}
-          />
-
-          <div className="w-full flex gap-4 justify-center">
-            <button
-              type="submit"
-              className="w-64 py-2 rounded-md shadow-md bg-slate-950 text-white"
-            >
-              Create PortFolio
-            </button>
-
-            <Link
-              href="/edit"
-              className="w-64 py-2 rounded-md shadow-md border-2 border-black text-center hover:bg-slate-50"
-            >
-              Edit Portfolio
-            </Link>
-          </div>
-        </form>
+          </form>
+        </div>
       </MainLayout>
     </>
   );

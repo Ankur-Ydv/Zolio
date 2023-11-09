@@ -1,4 +1,5 @@
 import MainLayout from "@/utils/MainLayout";
+import { russo_one } from "@/utils/fonts";
 import Link from "next/link";
 import React from "react";
 
@@ -6,7 +7,9 @@ const ErrorPage = () => {
   return (
     <>
       <MainLayout>
-        <div className="w-full h-full flex flex-col gap-8 items-center justify-center">
+        <div
+          className={`${russo_one.className} w-full h-full flex flex-col gap-8 items-center justify-center p-2`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
@@ -19,16 +22,17 @@ const ErrorPage = () => {
           </svg>
 
           <div className="flex flex-col gap-2 items-center">
-            <h1 className="text-9xl font-bold opacity-50">404</h1>
-            <h3 className="text-xl font-bold opacity-70">
+            <h1 className="text-8xl">404</h1>
+            <h3 className="text-xl text-center">
               Uh Oh! the Page you are looking for doesn't exist.
             </h3>
           </div>
 
-          <Link href="/">
-            <div className="p-4 border border-slate-700 rounded-md hover:bg-white hover:duration-300 shadow-md">
-              Back To Home Page
-            </div>
+          <Link
+            href="/"
+            className="p-4 rounded-md bg-gray-900 text-white hover:duration-300 shadow-md"
+          >
+            Back To Login Page
           </Link>
         </div>
       </MainLayout>

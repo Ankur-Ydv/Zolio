@@ -1,15 +1,21 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { signOut } from "next-auth/react";
 import { MdMenu, MdOutlineClose } from "react-icons/md";
 
-const Navbar = () => {
-  const [showMenu, setShowMenu] = useState(false);
+const DashboardNavbar = ({ username }) => {
   const router = useRouter();
-  const BasePath = router.asPath.split("#")[0];
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleSignOut = () => {
+    signOut({ redirect: false });
+    router.push("/");
+  };
+
   return (
     <>
-      <nav className="w-full fixed top-0 flex flex-col md:flex-row opacity-80 bg-slate-50 shadow-md z-20 px-6">
+      <nav className="w-full h-fit sticky top-0 flex flex-col md:flex-row opacity-80 bg-slate-50 shadow-md z-20 px-6">
         <div className="w-full flex justify-between py-4">
           <span className="p-1">
             <svg
@@ -33,30 +39,22 @@ const Navbar = () => {
 
         <ul
           className={`${
-            showMenu ? "" : "hidden"
-          } w-full items-center md:flex md:flex-row md:justify-end gap-4`}
+            showMenu ? "flex" : "hidden"
+          } w-full items-center flex-col md:flex md:flex-row md:justify-end gap-2 md:gap-4 md:text-md`}
         >
-          <Link href={BasePath + "/#home"}>
-            <li className="hover:bg-slate-200 p-1 rounded-md">Home</li>
+          <Link href={"/dashboard"}>
+            <li className="hover:bg-slate-200 p-1 rounded-md">Dashboard</li>
           </Link>
-          <Link href={BasePath + "/#skills"}>
-            <li className="hover:bg-slate-200 p-1 rounded-md">Skills</li>
+          <Link href={`/portfolio/${username}`}>
+            <li className="hover:bg-slate-200 p-1 rounded-md">Portfolio</li>
           </Link>
-          <Link href={BasePath + "/#projects"}>
-            <li className="hover:bg-slate-200 p-1 rounded-md">Projects</li>
-          </Link>
-          <Link href={BasePath + "/#certifications"}>
-            <li className="hover:bg-slate-200 p-1 rounded-md">
-              Certifications
-            </li>
-          </Link>
-          <Link href={BasePath + "/#connect"}>
-            <li className="hover:bg-slate-200 p-1 rounded-md">Connect</li>
-          </Link>
+          <button onClick={handleSignOut}>
+            <li className="hover:bg-slate-200 p-1 rounded-md">Logout</li>
+          </button>
         </ul>
       </nav>
     </>
   );
 };
 
-export default Navbar;
+export default DashboardNavbar;

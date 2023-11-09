@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 import CertificateBox from "@/components/CertificateBox";
 import ConnectForm from "@/components/ConnectForm";
 import Footer from "@/components/Footer";
-import Header from "@/components/Navbar";
+import Header from "@/components/PortfolioNavbar";
 import ProjectBox from "@/components/ProjectBox";
 import SkillBox from "@/components/SkillBox";
 import { MdDownload } from "react-icons/md";
 import MainLayout from "@/utils/MainLayout";
 import DbConnect from "@/utils/DbConnect";
-import Users from "@/utils/UserModesl";
+import Users from "@/utils/UserModel";
 import ProfileSidebar from "@/components/ProfileSidebar";
 
 const russo_one = Russo_One({
@@ -41,14 +41,12 @@ export async function getServerSideProps({ params }) {
 const Portfolio = ({ userData }) => {
   const Intro = {
     from: {
-      background: "black",
-      scale: 8,
-      rotate: "180",
+      scale: 0,
+      rotate: "360",
       opacity: 0,
     },
     to: {
       scale: 1,
-      background: "white",
       rotate: "0",
       opacity: 0.8,
       transition: {
