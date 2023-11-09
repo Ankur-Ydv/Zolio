@@ -1,5 +1,4 @@
 import React from "react";
-import InputBox from "./InputBox";
 
 const ConnectForm = () => {
   return (
@@ -8,7 +7,7 @@ const ConnectForm = () => {
         className="w-full md:w-2/3 flex flex-col gap-4 items-center"
         action="#"
       >
-        <div className="w-full flex gap-4">
+        {/* <div className="w-full flex gap-4">
           <InputBox
             type={"text"}
             label={"First Name"}
@@ -26,7 +25,7 @@ const ConnectForm = () => {
 
         <InputBox type={"email"} label={"Email"} id={"email"} style={""} />
 
-        <InputBox type={"text"} label={"Subject"} id={"subjetc"} style={""} />
+        <InputBox type={"text"} label={"Subject"} id={"subjetc"} style={""} /> */}
 
         <textarea
           type="text"
@@ -36,7 +35,7 @@ const ConnectForm = () => {
           className="w-full p-3 border border-slate-300 rounded-md focus:outline-slate-400"
         />
 
-        <button className="w-24 py-2 rounded-md bg-slate-700 hover:bg-slate-600 text-white">
+        <button className="w-24 py-2 rounded-md bg-gray-900 text-white">
           Send
         </button>
       </form>

@@ -41,7 +41,7 @@ const Profiles = ({ username, profilesObject }) => {
     setLoading(true);
     if (true) {
       try {
-        await axios.put("/api/edit/profiles", { username, ...values });
+        await axios.put("/api/edit/profiles", { username, values });
       } catch (error) {
         console.log(error);
       }

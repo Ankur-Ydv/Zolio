@@ -4,14 +4,14 @@ import Users from "@/utils/UserModel";
 export default async function handler(req, res) {
   DbConnect()
     .then(() => console.log("DB Connected"))
-    .catch((error) => console.log(error));
+    .catch((error) => res.status(500).json({ error }));
 
-  if (req.method === "PATCH") {
+  if (req.method === "DELETE") {
     try {
-      const { username } = req.body;
+      const { username } = req.query;
       await Users.findOneAndDelete({ username });
 
-      res.status(200).json({ msg: "Deleted Successfully" });
+      res.status(200).json({ username, msg: "Deleted Successfully" });
     } catch (error) {}
   } else {
     res.status(405).json({ msg: "Method Not Allowed" });

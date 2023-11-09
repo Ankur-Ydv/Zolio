@@ -33,10 +33,10 @@ const Dashboard = ({ username }) => {
   return (
     <>
       <MainLayout>
-        <div className="w-full h-full flex flex-col overflow-auto">
+        <div className="w-full min-h-full flex flex-col overflow-auto">
           <DashboardNavbar username={username} />
-          <div className="w-full h-full flex flex-wrap gap-12 p-8 items-center justify-center">
-            <Card title={"Edit Bio"} to={"/dashboard/bio"} />
+          <div className="w-full flex flex-wrap gap-16 p-8 pt-16 items-center justify-center">
+            <Card title={"Edit Account"} to={"/dashboard/account"} />
             <Card title={"Edit Profiles"} to={`/dashboard/profiles`} />
             <Card title={"Edit Skills"} to={"/dashboard/skills"} />
             <Card title={"Edit Projects"} to={"/dashboard/projects"} />

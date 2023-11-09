@@ -1,45 +1,38 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Russo_One } from "next/font/google";
 import { motion } from "framer-motion";
-import CertificateBox from "@/components/CertificateBox";
-import ConnectForm from "@/components/ConnectForm";
-import Footer from "@/components/Footer";
-import Header from "@/components/PortfolioNavbar";
-import ProjectBox from "@/components/ProjectBox";
-import SkillBox from "@/components/SkillBox";
+import { russo_one } from "@/utils/fonts";
 import { MdDownload } from "react-icons/md";
-import MainLayout from "@/utils/MainLayout";
-import DbConnect from "@/utils/DbConnect";
 import Users from "@/utils/UserModel";
+import Footer from "@/components/Footer";
+import DbConnect from "@/utils/DbConnect";
+import MainLayout from "@/utils/MainLayout";
+import SkillBox from "@/components/SkillBox";
+import ProjectBox from "@/components/ProjectBox";
+import Header from "@/components/PortfolioNavbar";
+import ConnectForm from "@/components/ConnectForm";
+import CertificateBox from "@/components/CertificateBox";
 import ProfileSidebar from "@/components/ProfileSidebar";
-
-const russo_one = Russo_One({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal"],
-  display: "swap",
-});
 
 export async function getServerSideProps({ params }) {
   DbConnect().catch((error) => console.log(error));
 
-  const res = await Users.findOne({ username: params.username });
-  const userData = JSON.parse(JSON.stringify(res));
+  const response = await Users.findOne({ username: params.username });
+  const user = JSON.parse(JSON.stringify(response));
 
-  if (!userData) {
+  if (!user) {
     return {
       notFound: true,
     };
   }
 
   return {
-    props: { userData },
+    props: { user },
   };
 }
 
-const Portfolio = ({ userData }) => {
-  const Intro = {
+const Portfolio = ({ user }) => {
+  const ImageIntro = {
     from: {
       scale: 0,
       rotate: "360",
@@ -68,7 +61,7 @@ const Portfolio = ({ userData }) => {
               initial="from"
               whileInView="to"
               viewport={{ once: true }}
-              variants={Intro}
+              variants={ImageIntro}
               className="rounded-full border border-black border-t-4 border-r-2 border-b-0 overflow-hidden relative"
             >
               <img
@@ -79,21 +72,14 @@ const Portfolio = ({ userData }) => {
             </motion.figure>
             <article className="flex flex-col gap-4 items-center">
               <h1 className={`${russo_one.className} text-4xl lg:text-6xl`}>
-                Ankur Yadav
+                {user.fullname}
               </h1>
-              <h4 className="text-center text-xl lg:text-2xl">
-                Mern Stack Developer & Competitive Programmer
-              </h4>
-              <p className="w-full lg:w-2/3 text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod et
-                facere architecto dolor iure vero aperiam! Veritatis beatae
-                culpa laboriosam facilis accusantium cupiditate neque ullam
-                corrupti, quo alias dolorum asperiores!
-              </p>
-              <ProfileSidebar profiles={userData.profiles} />
+              <h4 className="text-center text-xl lg:text-2xl">{user.title}</h4>
+              <p className="w-full lg:w-2/3 text-center">{user.description}</p>
+              <ProfileSidebar profiles={user.profiles} />
             </article>
             <Link
-              href={userData.resumeLink}
+              href={user.resume}
               className="border border-black py-2 px-4 rounded-md bg-gray-50"
               target="_blank"
             >
@@ -101,44 +87,54 @@ const Portfolio = ({ userData }) => {
             </Link>
           </section>
 
-          <section id="skills" className="w-full pt-16">
-            <h1
-              className={`${russo_one.className} text-3xl font-semibold mb-6`}
-            >
-              My Top Skills
-            </h1>
-            <div className="w-full flex flex-wrap justify-evenly gap-6">
-              {userData.skills.map((skill, index) => {
-                return <SkillBox skill={skill} key={index} canDelete={false} />;
-              })}
-            </div>
-          </section>
+          {user.skills.length !== 0 && (
+            <section id="skills" className="w-full pt-16">
+              <h1
+                className={`${russo_one.className} text-3xl font-semibold mb-6`}
+              >
+                My Top Skills
+              </h1>
+              <div className="w-full flex flex-wrap justify-evenly gap-6">
+                {user.skills.map((skill, index) => {
+                  return (
+                    <SkillBox skill={skill} key={index} canDelete={false} />
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
-          <section id="projects" className="w-full pt-16">
-            <h1
-              className={`${russo_one.className} text-3xl font-semibold mb-6`}
-            >
-              Projects
-            </h1>
-            <div className="w-full flex flex-col items-center gap-8">
-              {userData.projects.map((project, index) => {
-                return <ProjectBox project={project} key={index} />;
-              })}
-            </div>
-          </section>
+          {user.projects.length !== 0 && (
+            <section id="projects" className="w-full pt-16">
+              <h1
+                className={`${russo_one.className} text-3xl font-semibold mb-6`}
+              >
+                Projects
+              </h1>
+              <div className="w-full flex flex-col items-center gap-8">
+                {user.projects.map((project, index) => {
+                  return <ProjectBox project={project} key={index} />;
+                })}
+              </div>
+            </section>
+          )}
 
-          <section id="certifications" className="w-full pt-16">
-            <h1
-              className={`${russo_one.className} text-3xl font-semibold mb-6`}
-            >
-              Certifications
-            </h1>
-            <div className="w-full flex flex-col gap-4">
-              {userData.certificates.map((certificate, index) => {
-                return <CertificateBox certificate={certificate} key={index} />;
-              })}
-            </div>
-          </section>
+          {user.certificates.length !== 0 && (
+            <section id="certifications" className="w-full pt-16">
+              <h1
+                className={`${russo_one.className} text-3xl font-semibold mb-6`}
+              >
+                Certifications
+              </h1>
+              <div className="w-full flex flex-col gap-4">
+                {user.certificates.map((certificate, index) => {
+                  return (
+                    <CertificateBox certificate={certificate} key={index} />
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
           <section id="connect" className="w-full pt-16 pb-4">
             <h1

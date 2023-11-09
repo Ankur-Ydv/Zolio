@@ -22,11 +22,11 @@ const Create = () => {
           password: values.password,
         });
       }
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const formik = useFormik({

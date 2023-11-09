@@ -43,30 +43,12 @@ const ProjectSchema = new Schema({
 });
 
 const ProfileSchema = new Schema({
-  linkedin: {
-    type: String,
-    default: "",
-  },
-  github: {
-    type: String,
-    default: "",
-  },
-  leetcode: {
-    type: String,
-    default: "",
-  },
-  geeksforgeeks: {
-    type: String,
-    default: "",
-  },
-  codechef: {
-    type: String,
-    default: "",
-  },
-  codeforces: {
-    type: String,
-    default: "",
-  },
+  linkedin: String,
+  github: String,
+  leetcode: String,
+  geeksforgeeks: String,
+  codechef: String,
+  codeforces: String,
 });
 
 const UserSchema = new Schema({
@@ -102,7 +84,17 @@ const UserSchema = new Schema({
     type: String,
     default: "",
   },
-  profiles: ProfileSchema,
+  profiles: {
+    type: ProfileSchema,
+    default: {
+      linkedin: "",
+      github: "",
+      leetcode: "",
+      geeksforgeeks: "",
+      codechef: "",
+      codeforces: "",
+    },
+  },
   skills: [String],
   projects: [ProjectSchema],
   certificates: [CertificateSchema],

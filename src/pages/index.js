@@ -25,12 +25,13 @@ const Home = () => {
           router.push("/dashboard");
         } else {
           console.log("Invalid Credentials");
+          setLoading(false);
         }
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const formik = useFormik({

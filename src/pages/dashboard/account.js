@@ -38,19 +38,37 @@ export async function getServerSideProps({ req, res }) {
   };
 }
 
-const Bio = ({ username, user }) => {
-  const [loading, setLoading] = useState(false);
+const Account = ({ username, user }) => {
+  const router = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const handleDelete = async () => {
+    setDeleteLoading(true);
+    try {
+      const res = await axios.delete(`/api/delete/${username}`);
+      if (res.status === 200) router.push("/");
+      else setDeleteLoading(false);
+    } catch (error) {
+      console.log(error);
+      setDeleteLoading(false);
+    }
+  };
 
   const onSubmit = async (values, error) => {
-    setLoading(true);
+    setSubmitLoading(true);
     if (true) {
       try {
-        await axios.patch("/api/edit/bio", values);
+        const res = await axios.patch("/api/edit/account", {
+          ...values,
+          username,
+        });
+        console.log(res);
       } catch (error) {
         console.log(error);
       }
     }
-    setLoading(false);
+    setSubmitLoading(false);
   };
 
   const formik = useFormik({
@@ -72,7 +90,9 @@ const Bio = ({ username, user }) => {
             className="w-full md:3/4 lg:w-2/3 flex flex-col gap-4 px-4 py-8"
             onSubmit={formik.handleSubmit}
           >
-            <h1 className={`${russo_one.className} text-2xl`}>Edit Your Bio</h1>
+            <h1 className={`${russo_one.className} text-2xl`}>
+              Edit Your Account
+            </h1>
 
             <div className="w-full flex flex-col md:flex-row gap-4">
               <div className="w-full relative">
@@ -153,13 +173,24 @@ const Bio = ({ username, user }) => {
               {...formik.getFieldProps("description")}
             />
 
-            <button
-              type="submit"
-              className="w-fit p-4 rounded-md shadow-md bg-slate-900 disabled:opacity-70 text-white"
-              disabled={loading ? true : false}
-            >
-              {loading ? <Loader /> : <FaCheck />}
-            </button>
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                className="w-fit p-4 rounded-md shadow-md bg-slate-900 disabled:opacity-70 text-white"
+                disabled={submitLoading ? true : false}
+              >
+                {submitLoading ? <Loader /> : <FaCheck />}
+              </button>
+
+              <button
+                type="button"
+                className="w-fit p-3 rounded-md shadow-md bg-gray-50 font-semibold border border-red-800 text-red-900 disabled:opacity-70"
+                disabled={deleteLoading ? true : false}
+                onClick={handleDelete}
+              >
+                {deleteLoading ? <Loader /> : "Delete Portfolio"}
+              </button>
+            </div>
           </form>
         </div>
       </MainLayout>
@@ -167,4 +198,4 @@ const Bio = ({ username, user }) => {
   );
 };
 
-export default Bio;
+export default Account;
