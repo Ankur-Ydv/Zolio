@@ -45,6 +45,9 @@ const PortfolioNavbar = () => {
           <Link href={BasePath + "/#projects"}>
             <li className="hover:bg-slate-200 p-1 rounded-md">Projects</li>
           </Link>
+          <Link href={BasePath + "/#experience"}>
+            <li className="hover:bg-slate-200 p-1 rounded-md">Experience</li>
+          </Link>
           <Link href={BasePath + "/#certifications"}>
             <li className="hover:bg-slate-200 p-1 rounded-md">
               Certifications

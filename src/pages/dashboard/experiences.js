@@ -52,14 +52,12 @@ const Experiences = ({ username, experiencesArray }) => {
   };
 
   const validation = () => {
-    const { organization, role, startDate, endDate, description } =
-      currentExperience;
+    const { organization, role, startDate, description } = currentExperience;
     if (
       organization === "" ||
       description === "" ||
       role === "" ||
-      startDate === "" ||
-      endDate === ""
+      startDate === ""
     ) {
       enqueueSnackbar("All fields are mandatory", {
         variant: "info",

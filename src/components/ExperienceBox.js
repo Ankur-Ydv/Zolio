@@ -24,8 +24,6 @@ const ExperienceBox = ({
     },
   };
 
-  console.log(experience.startDate.split("-"));
-
   const handleDelete = () => {
     setExperiences(experiences.filter((experience, ind) => index !== ind));
   };
@@ -43,10 +41,14 @@ const ExperienceBox = ({
           <h2 className="text-xl font-semibold">{experience.organization}</h2>
           <h4 className="text-md text-gray-500">{experience.role}</h4>
         </div>
+
         <p className="text-md">{`
-        ${convertDate(experience.startDate)} - ${convertDate(
-          experience.endDate
-        )}`}</p>
+        ${convertDate(experience.startDate)} - ${
+          experience.endDate !== ""
+            ? convertDate(experience.endDate)
+            : "Present"
+        }`}</p>
+
         <p className="text-justify">{experience.description}</p>
 
         <TiDeleteOutline

@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FiLink2, FiGithub } from "react-icons/fi";
 import { TiDeleteOutline } from "react-icons/ti";
+import { convertDate } from "@/utils/lib";
 
 const ProjectBox = ({ index, canDelete, project, projects, setProjects }) => {
   const projectIntro = {
@@ -32,15 +33,20 @@ const ProjectBox = ({ index, canDelete, project, projects, setProjects }) => {
         viewport={{ once: true }}
         variants={projectIntro}
       >
-        <h2 className="text-xl font-semibold">{project.title}</h2>
+        <div>
+          <h2 className="text-xl font-semibold">{project.title}</h2>
+          {project.date !== "" && (
+            <p className="text-gray-500">{convertDate(project.date)}</p>
+          )}
+        </div>
         <p className="text-justify">{project.description}</p>
         <div className="flex gap-4 text-xl">
-          {project.link !== "" && (
-            <Link href={project.repoLink} target="_blank">
+          {project.repository !== "" && (
+            <Link href={project.repository} target="_blank">
               <FiGithub />
             </Link>
           )}
-          {project.github !== "" && (
+          {project.link !== "" && (
             <Link href={project.link} target="_blank">
               <FiLink2 />
             </Link>

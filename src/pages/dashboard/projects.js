@@ -183,6 +183,7 @@ const Projects = ({ username, projectsArray }) => {
                 className="w-full p-2 rounded-md"
                 name="description"
                 placeholder="Project description"
+                value={currentProject.description}
                 onChange={(e) =>
                   setCurrentProject({
                     ...currentProject,

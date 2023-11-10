@@ -106,7 +106,7 @@ const Portfolio = ({ user }) => {
           )}
 
           {user.experiences.length !== 0 && (
-            <section id="certifications" className="w-full pt-16">
+            <section id="Experience" className="w-full pt-16">
               <h1
                 className={`${russo_one.className} text-3xl font-semibold mb-6`}
               >
