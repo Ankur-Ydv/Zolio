@@ -138,11 +138,11 @@ const Projects = ({ username, projectsArray }) => {
                     name="repository"
                     className="w-full block rounded-md px-2.5 pb-2.5 pt-5 text-sm focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    value={currentProject.repository}
+                    value={currentProject.repoLink}
                     onChange={(e) =>
                       setCurrentProject({
                         ...currentProject,
-                        repository: e.target.value,
+                        repoLink: e.target.value,
                       })
                     }
                   />
@@ -235,7 +235,7 @@ const Projects = ({ username, projectsArray }) => {
 
 const SampleProject = {
   title: "",
-  repository: "",
+  repoLink: "",
   link: "",
   date: "",
   description: "",

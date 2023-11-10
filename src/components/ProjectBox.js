@@ -41,8 +41,8 @@ const ProjectBox = ({ index, canDelete, project, projects, setProjects }) => {
         </div>
         <p className="text-justify">{project.description}</p>
         <div className="flex gap-4 text-xl">
-          {project.repository !== "" && (
-            <Link href={project.repository} target="_blank">
+          {project.repoLink !== "" && (
+            <Link href={project.repoLink} target="_blank">
               <FiGithub />
             </Link>
           )}
