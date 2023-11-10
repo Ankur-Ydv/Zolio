@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { TiDeleteOutline } from "react-icons/ti";
+import { TbCertificate, TbExternalLink } from "react-icons/tb";
+import Link from "next/link";
 
 const CertificateBox = ({
   index,
@@ -12,7 +14,7 @@ const CertificateBox = ({
   const certificateIntro = {
     hide: {
       opacity: 0,
-      x: 100,
+      x: 200,
     },
     show: {
       opacity: 1,
@@ -36,24 +38,21 @@ const CertificateBox = ({
         viewport={{ once: true }}
         variants={certificateIntro}
       >
-        <img
-          src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=700&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
-          alt="certificate"
-          width="50"
-          height="50"
-          className="object-cover"
-        />
+        <TbCertificate className="h-full text-4xl" />
+
         <div className="w-full h-12 flex flex-col justify-around">
-          <h1 className="text-lg md:text-xl font-bold">{certificate.title}</h1>
-          <div>
-            <span>{`${certificate.organization} • `}</span>
-            <span>{certificate.date}</span>
-          </div>
+          <h3 className="text-lg md:text-xl font-bold">{certificate.title}</h3>
+          <span>{`${certificate.organization}  •  ${certificate.date}`}</span>
         </div>
+
+        <Link href={certificate.link} target="_blank">
+          <TbExternalLink className="h-full text-2xl" />
+        </Link>
+
         <TiDeleteOutline
           className={`${
             !canDelete && "hidden"
-          } float-right text-2xl cursor-pointer hover:text-red-800`}
+          } h-full float-right text-2xl cursor-pointer hover:text-red-800`}
           onClick={handleDelete}
         />
       </motion.article>

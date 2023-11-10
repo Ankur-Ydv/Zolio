@@ -13,6 +13,7 @@ import Header from "@/components/PortfolioNavbar";
 import ConnectForm from "@/components/ConnectForm";
 import CertificateBox from "@/components/CertificateBox";
 import ProfileSidebar from "@/components/ProfileSidebar";
+import ExperienceBox from "@/components/ExperienceBox";
 
 export async function getServerSideProps({ params }) {
   DbConnect().catch((error) => console.log(error));
@@ -104,6 +105,21 @@ const Portfolio = ({ user }) => {
             </section>
           )}
 
+          {user.experiences.length !== 0 && (
+            <section id="certifications" className="w-full pt-16">
+              <h1
+                className={`${russo_one.className} text-3xl font-semibold mb-6`}
+              >
+                Experience
+              </h1>
+              <div className="w-full flex flex-col gap-4">
+                {user.experiences.map((experience, index) => {
+                  return <ExperienceBox experience={experience} key={index} />;
+                })}
+              </div>
+            </section>
+          )}
+
           {user.projects.length !== 0 && (
             <section id="projects" className="w-full pt-16">
               <h1
@@ -143,7 +159,7 @@ const Portfolio = ({ user }) => {
               Connect With ME
             </h1>
             <article className="w-full flex justify-center">
-              <ConnectForm />
+              <ConnectForm to_name={user.fullname} to_email={user.email} />
             </article>
           </section>
 

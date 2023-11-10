@@ -9,6 +9,7 @@ import Loader from "@/components/Loader";
 import MainLayout from "@/utils/MainLayout";
 import ProjectBox from "@/components/ProjectBox";
 import DashboardNavbar from "@/components/DashboardNavbar";
+import { enqueueSnackbar } from "notistack";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getServerSession(req, res, authOptions);
@@ -24,11 +25,12 @@ export async function getServerSideProps({ req, res }) {
 
   const username = await session.session.user.username;
   const response = await Users.findOne({ username }, "projects");
+  const projectsArray = JSON.parse(JSON.stringify(response.projects));
 
   return {
     props: {
       username,
-      projectsArray: response.projects,
+      projectsArray,
     },
   };
 }
@@ -42,16 +44,33 @@ const Projects = ({ username, projectsArray }) => {
     setLoading(true);
     try {
       await axios.put("/api/edit/projects", { projects, username });
+      enqueueSnackbar("Projects Added", { variant: "success" });
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar("Internal Server Error", { variant: "error" });
     }
     setLoading(false);
   };
 
-  const addProject = () => {
-    if (true) setProjects([...projects, currentProject]);
-    setCurrentProject(SampleProject);
+  const validation = () => {
+    const { title, description } = currentProject;
+    if (title === "" || description === "") {
+      enqueueSnackbar("Title & Description are mandatory", { variant: "info" });
+      return false;
+    } else if (description > 500) {
+      enqueueSnackbar("Keep Description Shorter", { variant: "warning" });
+      return false;
+    }
+
+    return true;
   };
+
+  const addProject = () => {
+    if (validation()) {
+      setProjects([...projects, currentProject]);
+      setCurrentProject(SampleProject);
+    }
+  };
+
   return (
     <>
       <MainLayout>

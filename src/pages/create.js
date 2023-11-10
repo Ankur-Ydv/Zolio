@@ -6,26 +6,69 @@ import { useRouter } from "next/router";
 import FormHeader from "@/components/FormHeader";
 import MainLayout from "@/utils/MainLayout";
 import Loader from "@/components/Loader";
+import { enqueueSnackbar } from "notistack";
 
 const Create = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const validation = ({
+    username,
+    password,
+    confirmPassword,
+    fullname,
+    email,
+  }) => {
+    if (
+      username === "" ||
+      password === "" ||
+      confirmPassword === "" ||
+      fullname === "" ||
+      email === ""
+    ) {
+      enqueueSnackbar("All fields are mandatory", { variant: "info" });
+      return false;
+    } else if (fullname.length < 3) {
+      enqueueSnackbar("Fullname is too short (min 3 characters) ", {
+        variant: "warning",
+      });
+      return false;
+    } else if (password.length < 8) {
+      enqueueSnackbar("Password is too short (min 8 characters)", {
+        variant: "warning",
+      });
+      return false;
+    } else if (password !== confirmPassword) {
+      enqueueSnackbar("Password doesn't match", {
+        variant: "warning",
+      });
+      return false;
+    } else if (fullname.length < 3) {
+      enqueueSnackbar("Username is too short (min 3 characters) ", {
+        variant: "warning",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const onSubmit = async (values, error) => {
-    setLoading(true);
-    try {
-      if (true) {
+    if (validation(values)) {
+      setLoading(true);
+      try {
         await axios.post("/api/auth/signup", {
           fullname: values.fullname,
           username: values.username,
           email: values.email,
           password: values.password,
         });
+
+        router.push("/");
+      } catch (error) {
+        enqueueSnackbar(error.response.data.msg, { variant: "error" });
+        setLoading(false);
       }
-      router.push("/");
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
     }
   };
 

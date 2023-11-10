@@ -43,6 +43,25 @@ const Account = ({ username, user }) => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
+  const validation = ({ fullname, email, description }) => {
+    if (fullname === "" || email === "") {
+      enqueueSnackbar("Fullname & Email are mandatory", { variant: "info" });
+      return false;
+    } else if (fullname.length < 3) {
+      enqueueSnackbar("Fullname is too short (min 3 characters) ", {
+        variant: "warning",
+      });
+      return false;
+    } else if (description.length > 500) {
+      enqueueSnackbar("Keep Description Shorter (max 500 characters)", {
+        variant: "warning",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleDelete = async () => {
     setDeleteLoading(true);
     try {
@@ -57,7 +76,7 @@ const Account = ({ username, user }) => {
 
   const onSubmit = async (values, error) => {
     setSubmitLoading(true);
-    if (true) {
+    if (validation(values)) {
       try {
         const res = await axios.patch("/api/edit/account", {
           ...values,

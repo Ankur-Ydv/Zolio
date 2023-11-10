@@ -9,6 +9,7 @@ import Users from "@/utils/UserModel";
 import Loader from "@/components/Loader";
 import MainLayout from "@/utils/MainLayout";
 import DashboardNavbar from "@/components/DashboardNavbar";
+import { enqueueSnackbar } from "notistack";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getServerSession(req, res, authOptions);
@@ -39,12 +40,11 @@ const Profiles = ({ username, profilesObject }) => {
 
   const onSubmit = async (values, error) => {
     setLoading(true);
-    if (true) {
-      try {
-        await axios.put("/api/edit/profiles", { username, values });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await axios.put("/api/edit/profiles", { username, values });
+      enqueueSnackbar("Profiles Added", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar("Internal Server Error", { variant: "error" });
     }
     setLoading(false);
   };

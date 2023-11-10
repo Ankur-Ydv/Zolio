@@ -42,6 +42,29 @@ const ProjectSchema = new Schema({
   },
 });
 
+const ExperienceSchema = new Schema({
+  organization: {
+    type: String,
+    default: "",
+  },
+  role: {
+    type: String,
+    default: "",
+  },
+  startDate: {
+    type: String,
+    default: "",
+  },
+  endDate: {
+    type: String,
+    default: "",
+  },
+  description: {
+    type: String,
+    default: "",
+  },
+});
+
 const ProfileSchema = new Schema({
   linkedin: String,
   github: String,
@@ -98,6 +121,7 @@ const UserSchema = new Schema({
   skills: [String],
   projects: [ProjectSchema],
   certificates: [CertificateSchema],
+  experiences: [ExperienceSchema],
 });
 
 const Users = models?.User || model("User", UserSchema);

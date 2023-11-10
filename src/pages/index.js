@@ -6,15 +6,35 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import { signIn } from "next-auth/react";
+import { enqueueSnackbar } from "notistack";
 
 const Home = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const validation = ({ username, password }) => {
+    if (username === "" || password === "") {
+      enqueueSnackbar("All fields are mandatory", { variant: "info" });
+      return false;
+    } else if (username.length < 3) {
+      enqueueSnackbar("Username is too short (min 3 characters) ", {
+        variant: "warning",
+      });
+      return false;
+    } else if (password.length < 8) {
+      enqueueSnackbar("Password is too short (min 8 characters)", {
+        variant: "warning",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const onSubmit = async (values, error) => {
-    setLoading(true);
-    try {
-      if (true) {
+    if (validation(values)) {
+      setLoading(true);
+      try {
         const res = await signIn("credentials", {
           redirect: false,
           username: values.username,
@@ -24,13 +44,13 @@ const Home = () => {
         if (res.ok) {
           router.push("/dashboard");
         } else {
-          console.log("Invalid Credentials");
+          enqueueSnackbar("Invalid Credentials", { variant: "error" });
           setLoading(false);
         }
+      } catch (error) {
+        enqueueSnackbar("Internal Server Error", { variant: "error" });
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
     }
   };
 

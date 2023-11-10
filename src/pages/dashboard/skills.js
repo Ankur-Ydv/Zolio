@@ -9,6 +9,7 @@ import MainLayout from "@/utils/MainLayout";
 import SkillBox from "@/components/SkillBox";
 import DashboardNavbar from "@/components/DashboardNavbar";
 import Loader from "@/components/Loader";
+import { enqueueSnackbar } from "notistack";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getServerSession(req, res, authOptions);
@@ -38,19 +39,22 @@ const Skills = ({ username, skillsArray }) => {
   const [currentSkill, setCurrentSkill] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const addSkill = () => {
-    if (currentSkill !== "") setSkills([...skills, currentSkill]);
-    setCurrentSkill("");
-  };
-
   const handleSubmit = async () => {
     setLoading(true);
     try {
       await axios.put("/api/edit/skills", { skills, username });
+      enqueueSnackbar("Skills Added", { variant: "success" });
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar("Internal Server Error", { variant: "error" });
     }
     setLoading(false);
+  };
+
+  const addSkill = () => {
+    if (currentSkill !== "") {
+      setSkills([...skills, currentSkill]);
+      setCurrentSkill("");
+    } else enqueueSnackbar("Invalid Skill", { variant: "info" });
   };
 
   return (

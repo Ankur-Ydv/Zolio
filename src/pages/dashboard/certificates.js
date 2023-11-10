@@ -41,20 +41,31 @@ const Certificates = ({ username, certificatesArray }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    if (true) {
-      try {
-        await axios.put("/api/edit/certificates", { username, certificates });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await axios.put("/api/edit/certificates", { username, certificates });
+    } catch (error) {
+      console.log(error);
     }
     setLoading(false);
   };
 
+  const validation = () => {
+    const { organization, title } = currentCertificate;
+    if (organization === "" || title === "") {
+      enqueueSnackbar("Organization & Title are mandatory", {
+        variant: "info",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const addCertificate = () => {
-    console.log(currentCertificate);
-    if (true) setCertificates([...certificates, currentCertificate]);
-    setCurrentCertificate(SampleCertificate);
+    if (validation()) {
+      setCertificates([...certificates, currentCertificate]);
+      setCurrentCertificate(SampleCertificate);
+    }
   };
 
   return (

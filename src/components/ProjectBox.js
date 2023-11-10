@@ -26,13 +26,13 @@ const ProjectBox = ({ index, canDelete, project, projects, setProjects }) => {
   return (
     <>
       <motion.article
-        className="w-full md:w-2/3 flex flex-col gap-4 shadow-lg rounded-md border border-slate-950 bg-slate-50 p-4"
+        className="w-full md:w-2/3 flex flex-col gap-4 shadow-lg rounded-md border border-slate-950 bg-slate-50 p-4 relative"
         initial="hide"
         whileInView="show"
         viewport={{ once: true }}
         variants={projectIntro}
       >
-        <h2 className="text-lg font-semibold">{project.title}</h2>
+        <h2 className="text-xl font-semibold">{project.title}</h2>
         <p className="text-justify">{project.description}</p>
         <div className="flex gap-4 text-xl">
           {project.link !== "" && (
