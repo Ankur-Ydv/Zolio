@@ -6,7 +6,6 @@ import { MdMenu, MdOutlineClose } from "react-icons/md";
 const PortfolioNavbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
-  const BasePath = router.asPath.split("#")[0];
   return (
     <>
       <nav className="w-full fixed top-0 flex flex-col md:flex-row opacity-80 bg-slate-50 shadow-md z-20 px-6">
@@ -36,24 +35,24 @@ const PortfolioNavbar = () => {
             showMenu ? "flex" : "hidden"
           } w-full items-center flex-col md:flex md:flex-row md:justify-end gap-2 md:gap-4 md:text-md`}
         >
-          <Link href={BasePath + "/#home"}>
+          <Link href={`/portfolio/${router.query.username}/#home`}>
             <li className="hover:bg-slate-200 p-1 rounded-md">Home</li>
           </Link>
-          <Link href={BasePath + "/#skills"}>
+          <Link href={`/portfolio/${router.query.username}/#skills`}>
             <li className="hover:bg-slate-200 p-1 rounded-md">Skills</li>
           </Link>
-          <Link href={BasePath + "/#projects"}>
+          <Link href={`/portfolio/${router.query.username}/#projects`}>
             <li className="hover:bg-slate-200 p-1 rounded-md">Projects</li>
           </Link>
-          <Link href={BasePath + "/#experience"}>
+          <Link href={`/portfolio/${router.query.username}/#experience`}>
             <li className="hover:bg-slate-200 p-1 rounded-md">Experience</li>
           </Link>
-          <Link href={BasePath + "/#certifications"}>
+          <Link href={`/portfolio/${router.query.username}/#certifications`}>
             <li className="hover:bg-slate-200 p-1 rounded-md">
               Certifications
             </li>
           </Link>
-          <Link href={BasePath + "/#connect"}>
+          <Link href={`/portfolio/${router.query.username}/#connect`}>
             <li className="hover:bg-slate-200 p-1 rounded-md">Connect</li>
           </Link>
         </ul>

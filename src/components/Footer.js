@@ -1,43 +1,33 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 const Footer = () => {
+  const router = useRouter();
   return (
     <>
       <footer className="w-full flex flex-col items-center">
         <nav className="w-full md:2/3 flex justify-evenly p-6 border-t border-black text-slate-600">
           <ul className="flex flex-col gap-4">
-            <Link href="/">
+            <Link href={`/portfolio/${router.query.username}`}>
               <li className="hover:text-black">Home</li>
             </Link>
-            <Link href="/#skills">
-              <li className="hover:text-black">Skills</li>
-            </Link>
-            <Link href="/#projects">
+            <Link href={`/portfolio/${router.query.username}/#projects`}>
               <li className="hover:text-black">Projects</li>
             </Link>
-            <Link href="/#connect">
+            <Link href={`/portfolio/${router.query.username}/#certifications`}>
               <li className="hover:text-black">Certifications</li>
-            </Link>
-            <Link href="/#connect">
-              <li className="hover:text-black">Connect</li>
             </Link>
           </ul>
           <ul className="flex flex-col gap-4">
-            <Link href="https://www.linkedin.com/in/ankur-yadav-aky/">
-              <li className="hover:text-black">LinkedIn</li>
+            <Link href={`/portfolio/${router.query.username}/#skills`}>
+              <li className="hover:text-black">Skills</li>
             </Link>
-            <Link href="https://github.com/Ankur-Ydv">
-              <li className="hover:text-black">GitHub</li>
+            <Link href={`/portfolio/${router.query.username}/#experience`}>
+              <li className="hover:text-black">Experience</li>
             </Link>
-            <Link href="https://leetcode.com/Akryadav/">
-              <li className="hover:text-black">LeetCode</li>
-            </Link>
-            <Link href="https://www.codechef.com/users/akryadav">
-              <li className="hover:text-black">CodeChef</li>
-            </Link>
-            <Link href="https://auth.geeksforgeeks.org/user/akryadav">
-              <li className="hover:text-black">GeeksForGeeks</li>
+            <Link href="/dashboard">
+              <li className="hover:text-black">Dashboard</li>
             </Link>
           </ul>
         </nav>

@@ -32,7 +32,7 @@ const CertificateBox = ({
   return (
     <>
       <motion.article
-        className="w-full flex p-4 gap-4 border border-slate-700 bg-gray-50 shadow-md rounded-md"
+        className="w-full min-h-fit flex p-4 gap-4 border border-slate-700 bg-gray-50 shadow-md rounded-md"
         initial="hide"
         whileInView="show"
         viewport={{ once: true }}
@@ -40,7 +40,7 @@ const CertificateBox = ({
       >
         <TbCertificate className="h-full text-4xl" />
 
-        <div className="w-full h-12 flex flex-col justify-around">
+        <div className="w-full flex flex-col justify-around">
           <h3 className="text-lg md:text-xl font-bold">{certificate.title}</h3>
           <span>{`${certificate.organization}  •  ${certificate.date}`}</span>
         </div>
