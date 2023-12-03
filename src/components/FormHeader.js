@@ -22,7 +22,7 @@ const FormHeader = () => {
           </span>
           <h1 className="text-4xl">Zolio</h1>
         </div>
-        <h3 className="text-xl">Built Your Own PortFolio</h3>
+        <h3 className="text-xl">Build Your Own PortFolio</h3>
       </article>
     </>
   );
